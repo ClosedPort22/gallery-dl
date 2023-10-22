@@ -180,6 +180,10 @@ class HttpDownloader(DownloaderBase):
             if validate and self.validate:
                 try:
                     result = validate(response)
+                except (RequestException, SSLError, OpenSSLError) as exc:
+                    msg = str(exc)
+                    print()
+                    continue
                 except Exception:
                     self.release_conn(response)
                     raise
